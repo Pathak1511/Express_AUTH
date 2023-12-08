@@ -4,7 +4,7 @@
   "description": "API for login,logout,password reset",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "author": "Hritik Pathak",
   "license": "ISC",
