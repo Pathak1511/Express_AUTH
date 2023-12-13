@@ -15,9 +15,19 @@ const postSchema = new mongoose.Schema({
     data: Buffer,
     contentType: String,
   },
-  comments: {
-    type: Array,
+  description: {
+    type: String,
   },
+  comments: [
+    {
+      user_id: {
+        type: String,
+      },
+      comment: {
+        type: String,
+      },
+    },
+  ],
   likes: {
     type: Array,
   },
