@@ -53,6 +53,7 @@ exports.addLike = catchAsync(async (req, res, next) => {
   console.log(isUserLikingThePost);
 
   let message = "liked";
+
   if (isUserLikingThePost) {
     await post.updateOne(
       { _id: req.params.post_id },
@@ -70,5 +71,55 @@ exports.addLike = catchAsync(async (req, res, next) => {
   res.json({
     status: "success",
     message,
+  });
+});
+
+// update post body
+
+exports.updatePost = catchAsync(async (req, res, next) => {
+  const updatedPost = await post.findByIdAndUpdate(
+    req.params.post_id,
+    { ...req.body },
+    { new: true }
+  );
+  // const [post_img, ...postwithoutimg] = updatedPost.toObject();
+
+  res.status(201).json({
+    status: "success",
+    message: "updated successfully",
+  });
+});
+
+// deletePost
+exports.deletePost = catchAsync(async (req, res, next) => {
+  const doc = await post.findByIdAndDelete(req.params.post_id);
+
+  res.status(200).json({
+    status: "success",
+    message: "Post deleted successfully",
+  });
+});
+
+// get post with user_id
+exports.getAllPost = catchAsync(async (req, res, next) => {
+  const Post = await post
+    .find({ user_id: req.params.user_id })
+    .select("-post_img");
+
+  res.status(200).json({
+    status: "success",
+    data: Post,
+  });
+});
+
+// get post data
+exports.getPost = catchAsync(async (req, res, next) => {
+  const data = await post
+    .findOne({ _id: req.params.post_id })
+    .select("-post_img");
+  res.status(200).json({
+    status: "success",
+    data: data,
+    message: "getPost",
   });
 });
