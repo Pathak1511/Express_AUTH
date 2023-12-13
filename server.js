@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRouter");
+const postRoutes = require("./routes/postRouter");
 const GlobalErrorHandler = require("./controller/errorController");
 const AppError = require("./util/AppError");
 
@@ -20,6 +21,7 @@ const DB = process.env.DATABASE.replace(
 mongoose.connect(DB).then(() => console.log("DB connection successfull"));
 
 app.use("/", userRoutes);
+app.use("/post", postRoutes);
 
 app.all("*", function (req, res, next) {
   const err = new AppError(`Can't find ${req.originalUrl} in this server!`);

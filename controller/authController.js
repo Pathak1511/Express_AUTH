@@ -135,7 +135,7 @@ exports.signin = catchAsync(async (req, res, next) => {
   if (!userAuth || !(await correctPassword(userpassword, userAuth.password))) {
     return next(new AppError("Incorrect provided Credentials", 401));
   }
-  const { password, _id, ...userWithoutPassword } = userAuth.toObject();
+  const { password, ...userWithoutPassword } = userAuth.toObject();
   res.cookie("Bearer", signToken(userAuth._id.toString()));
   res.status(200).json({
     status: true,
