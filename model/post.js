@@ -4,10 +4,6 @@ const mongoose = require("mongoose");
 //////////////////////////////////////////
 
 const postSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    unique: true,
-  },
   user_id: {
     type: String,
   },

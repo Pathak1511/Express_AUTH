@@ -6,7 +6,9 @@ router.route("/sign-up").post(authController.signup);
 // LOGIN
 router.route("/login").post(authController.signin);
 // Reset Password Request
-router.route("/reset-password").post(authController.sendEmail);
+router
+  .route("/reset-password")
+  .post(authController.protect, authController.sendEmail);
 // Reset Password Link request from Email
 router.route("/password-reset/:userId").post(authController.passwordreset);
 

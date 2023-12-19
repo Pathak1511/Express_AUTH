@@ -145,18 +145,14 @@ exports.signin = catchAsync(async (req, res, next) => {
   });
 });
 
-// GET Token Info
-
 exports.getToken = catchAsync(async (req, res, next) => {
   let token;
   if (req.headers.cookie && req.headers.cookie.startsWith("Bearer")) {
     token = req.headers.cookie.split("=");
   }
-
   if (!token) {
     return res.status(401).json({ status: false, message: "No token found" });
   }
-
   try {
     const decode = await promisify(jwt.verify)(
       token[1],
@@ -171,4 +167,21 @@ exports.getToken = catchAsync(async (req, res, next) => {
   } catch (err) {
     return res.status(401).json({ status: false, message: "Invalid token" });
   }
+});
+
+exports.protect = catchAsync(async (req, res, next) => {
+  let token;
+  if (req.headers.cookie && req.headers.cookie.startsWith("Bearer")) {
+    token = req.headers.cookie.split("=");
+  }
+
+  if (!token) {
+    return res.status(401).json({
+      status: false,
+      message: "No token found",
+    });
+  }
+  const decode = await promisify(jwt.verify)(token[1], process.env.JWT_SECRET);
+
+  next();
 });
